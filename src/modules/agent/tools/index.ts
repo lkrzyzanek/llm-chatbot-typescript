@@ -1,11 +1,10 @@
-import { BaseChatModel } from "langchain/chat_models/base";
 import { Embeddings } from "@langchain/core/embeddings";
 import { Neo4jGraph } from "@langchain/community/graphs/neo4j_graph";
 import initCypherRetrievalChain from "./cypher/cypher-retrieval.chain";
 import initVectorRetrievalChain from "./vector-retrieval.chain";
 import { DynamicStructuredTool } from "@langchain/community/tools/dynamic";
 import { AgentToolInputSchema } from "../agent.types";
-import { RunnableConfig } from "langchain/runnables";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 
 // tag::function[]
 export default async function initTools(
@@ -18,6 +17,7 @@ export default async function initTools(
   const retrievalChain = await initVectorRetrievalChain(llm, embeddings);
   
   return [
+    //@ts-ignore
     new DynamicStructuredTool({
       name: "graph-cypher-retrieval-chain",
       description:
@@ -25,6 +25,7 @@ export default async function initTools(
       schema: AgentToolInputSchema,
       func: (input, _runManager, config) => cypherChain.invoke(input, config),
     }),
+    //@ts-ignore
     new DynamicStructuredTool({
       name: "graph-vector-retrieval-chain",
       description:

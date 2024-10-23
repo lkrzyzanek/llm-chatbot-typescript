@@ -1,10 +1,10 @@
 import initAgent from "./agent";
 import { config } from "dotenv";
-import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import { Embeddings } from "langchain/embeddings/base";
-import { BaseChatModel } from "langchain/chat_models/base";
+import { Embeddings } from "@langchain/core/embeddings";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 import { Runnable } from "@langchain/core/runnables";
 import { Neo4jGraph } from "@langchain/community/graphs/neo4j_graph";
+import {ChatOllama, OllamaEmbeddings} from '@langchain/ollama';
 
 describe("Langchain Agent", () => {
   let llm: BaseChatModel;
@@ -22,20 +22,12 @@ describe("Langchain Agent", () => {
       database: process.env.NEO4J_DATABASE as string | undefined,
     });
 
-    llm = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      modelName: "gpt-3.5-turbo",
-      temperature: 0,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
+    llm = new ChatOllama({
+      model: "llama3.2"
     });
-
-    embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY as string,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
+  
+    embeddings = new OllamaEmbeddings({
+      model: "llama3.2"
     });
 
     executor = await initAgent(llm, embeddings, graph);

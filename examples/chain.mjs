@@ -11,10 +11,10 @@ Tell me about the following fruit: {fruit}
 // end::prompt[]
 
 // tag::llm[]
-import { ChatOpenAI } from "@langchain/openai";
+import {ChatOllama} from '@langchain/ollama';
 
-const llm = new ChatOpenAI({
-  openAIApiKey: "sk-...",
+export const llm = new ChatOllama({
+  model: "llama3.2",
 });
 // end::llm[]
 

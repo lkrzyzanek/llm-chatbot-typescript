@@ -12,7 +12,7 @@ import { Neo4jVectorStore } from "@langchain/community/vectorstores/neo4j_vector
 export default async function initVectorStore(
   embeddings: EmbeddingsInterface
 ): Promise<Neo4jVectorStore> {
-  const vectorStore = await Neo4jVectorStore.fromExistingIndex(embeddings, {
+  const vectorStore = await Neo4jVectorStore.initialize(embeddings, {
     url: process.env.NEO4J_URI as string,
     username: process.env.NEO4J_USERNAME as string,
     password: process.env.NEO4J_PASSWORD as string,

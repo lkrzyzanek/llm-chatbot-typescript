@@ -1,7 +1,7 @@
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
-import { BaseLanguageModel } from "langchain/base_language";
+import { BaseLanguageModel } from "@langchain/core/language_models/base";
 
 // tag::interface[]
 export interface GenerateAnswerInput {

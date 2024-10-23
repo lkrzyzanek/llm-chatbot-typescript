@@ -6,7 +6,7 @@ import { pull } from "langchain/hub";
 import initRephraseChain, {
   RephraseQuestionInput,
 } from "./chains/rephrase-question.chain";
-import { BaseChatModel } from "langchain/chat_models/base";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 import { RunnablePassthrough } from "@langchain/core/runnables";
 import { getHistory } from "./history";
 import initTools from "./tools";
@@ -43,7 +43,7 @@ export default async function initAgent(
         // Get Message History
         history: async (_input, options) => {
           const history = await getHistory(
-            options?.config.configurable.sessionId
+            options?.configurable.sessionId
           );
   
           return history;

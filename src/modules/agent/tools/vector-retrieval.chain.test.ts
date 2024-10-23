@@ -1,12 +1,12 @@
-import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { config } from "dotenv";
-import { BaseChatModel } from "langchain/chat_models/base";
-import { Embeddings } from "langchain/embeddings/base";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
+import { Embeddings } from "@langchain/core/embeddings";
 import { Runnable } from "@langchain/core/runnables";
 import initVectorRetrievalChain from "./vector-retrieval.chain";
 import { Neo4jGraph } from "@langchain/community/graphs/neo4j_graph";
 import { AgentToolInput } from "../agent.types";
 import { close } from "../../graph";
+import { ChatOllama, OllamaEmbeddings } from "@langchain/ollama";
 
 describe("Vector Retrieval Chain", () => {
   let graph: Neo4jGraph;
@@ -24,20 +24,12 @@ describe("Vector Retrieval Chain", () => {
       database: process.env.NEO4J_DATABASE as string | undefined,
     });
 
-    llm = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      modelName: "gpt-3.5-turbo",
-      temperature: 0,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
+    llm = new ChatOllama({
+      model: "llama3.2"
     });
 
-    embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY as string,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
+    embeddings = new OllamaEmbeddings({
+      model: "llama3.2",
     });
 
     chain = await initVectorRetrievalChain(llm, embeddings);

@@ -36,7 +36,7 @@ describe("Conversation History", () => {
   });
 
   it("should save conversation history", async () => {
-    const sessionId = "test-1";
+    const sessionId = "agent-rag-1";
     const source = "cypher";
     const input = "Who directed The Matrix?";
     const rephrasedQuestion = "Director of The Matrix";

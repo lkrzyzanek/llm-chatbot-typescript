@@ -1,4 +1,4 @@
-import { OpenAIEmbeddings } from "@langchain/openai";
+import { OllamaEmbeddings } from "@langchain/ollama";
 import initVectorStore from "./vector.store";
 import { Neo4jVectorStore } from "@langchain/community/vectorstores/neo4j_vector";
 import { close } from "../graph";
@@ -7,11 +7,7 @@ describe("Vector Store", () => {
   afterAll(() => close());
 
   it("should instantiate a new vector store", async () => {
-    const embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY as string,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
+    const embeddings = new OllamaEmbeddings({
     });
     const vectorStore = await initVectorStore(embeddings);
     expect(vectorStore).toBeInstanceOf(Neo4jVectorStore);
@@ -21,11 +17,7 @@ describe("Vector Store", () => {
 
   it("should create a test index", async () => {
     const indexName = "test-index";
-    const embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY as string,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
+    const embeddings = new OllamaEmbeddings({
     });
 
     const index = await Neo4jVectorStore.fromTexts(

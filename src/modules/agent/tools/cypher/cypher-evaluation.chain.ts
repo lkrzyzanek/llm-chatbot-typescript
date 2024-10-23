@@ -1,4 +1,4 @@
-import { BaseLanguageModel } from "langchain/base_language";
+import { BaseLanguageModel } from "@langchain/core/language_models/base";
 import { PromptTemplate } from "@langchain/core/prompts";
 import {
   RunnablePassthrough,

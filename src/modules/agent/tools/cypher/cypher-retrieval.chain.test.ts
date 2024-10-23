@@ -1,7 +1,7 @@
 // TODO: Remove code
-import { ChatOpenAI } from "@langchain/openai";
+import {ChatOllama} from '@langchain/ollama';
 import { config } from "dotenv";
-import { BaseChatModel } from "langchain/chat_models/base";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 import { Runnable } from "@langchain/core/runnables";
 import { Neo4jGraph } from "@langchain/community/graphs/neo4j_graph";
 import initCypherRetrievalChain, {
@@ -25,13 +25,8 @@ describe("Cypher QA Chain", () => {
       database: process.env.NEO4J_DATABASE as string | undefined,
     });
 
-    llm = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      modelName: "gpt-3.5-turbo",
-      temperature: 0,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
+    llm = new ChatOllama({
+      model: "llama3.2"
     });
 
     chain = await initCypherRetrievalChain(llm, graph);

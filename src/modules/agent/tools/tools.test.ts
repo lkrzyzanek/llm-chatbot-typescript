@@ -1,7 +1,6 @@
-import { ChatOpenAI } from "@langchain/openai";
 import initTools from ".";
+import {ChatOllama, OllamaEmbeddings} from '@langchain/ollama';
 import { Neo4jGraph } from "@langchain/community/graphs/neo4j_graph";
-import { OpenAIEmbeddings } from "@langchain/openai";
 
 describe("Tool Chain", () => {
   it("should return two tools", async () => {
@@ -12,21 +11,13 @@ describe("Tool Chain", () => {
       database: process.env.NEO4J_DATABASE as string | undefined,
     });
 
-    const llm = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      modelName: "gpt-3.5-turbo",
-      temperature: 0,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
+    const llm = new ChatOllama({
+      model: "llama3.2"
     });
 
-    const embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY as string,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
-    });
+    const embeddings = new OllamaEmbeddings({
+      model: "llama3.2"
+    })
 
     const tools = await initTools(llm, embeddings, graph);
 

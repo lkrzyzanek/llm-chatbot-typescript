@@ -1,25 +1,18 @@
-import { ChatOpenAI } from "@langchain/openai";
-import { OpenAIEmbeddings } from "@langchain/openai";
+import {ChatOllama, OllamaEmbeddings} from '@langchain/ollama';
 import initAgent from "./agent";
 import { initGraph } from "../graph";
 import { sleep } from "@/utils";
 
 // tag::call[]
 export async function call(input: string, sessionId: string): Promise<string> {
-  const llm = new ChatOpenAI({
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    // Note: only provide a baseURL when using the GraphAcademy Proxy
-    configuration: {
-      baseURL: process.env.OPENAI_API_BASE,
-    },
+  const llm = new ChatOllama({
+    model: "llama3.2"
   });
-  const embeddings = new OpenAIEmbeddings({
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    configuration: {
-      baseURL: process.env.OPENAI_API_BASE,
-    },
+    
+  const embeddings = new OllamaEmbeddings({
+    model: "llama3.2"
   });
-    // Get Graph Singleton
+  // Get Graph Singleton
   const graph = await initGraph();
   
   const agent = await initAgent(llm, embeddings, graph);

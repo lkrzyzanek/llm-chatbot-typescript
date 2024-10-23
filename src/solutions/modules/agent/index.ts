@@ -1,19 +1,14 @@
-import { ChatOpenAI } from "@langchain/openai";
+import {ChatOllama} from '@langchain/ollama';
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { Neo4jGraph } from "@langchain/community/graphs/neo4j_graph";
 import initAgent from "../../../modules/agent/agent";
-import { HumanMessage } from "langchain/schema";
 import { initGraph } from "../graph";
 
 // tag::function[]
 export async function call(input: string, sessionId: string): Promise<string> {
   // tag::model[]
-  const llm = new ChatOpenAI({
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    // Note: only provide a baseURL when using the GraphAcademy Proxy
-    configuration: {
-      baseURL: process.env.OPENAI_API_BASE,
-    },
+  const llm = new ChatOllama({
+    model: "llama3.2"
   });
   // end::model[]
   // tag::embeddings[]

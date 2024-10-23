@@ -1,4 +1,4 @@
-import { BaseLanguageModel } from "langchain/base_language";
+import { BaseLanguageModel } from "@langchain/core/language_models/base";
 import { Neo4jGraph } from "@langchain/community/graphs/neo4j_graph";
 import { RunnablePassthrough } from "@langchain/core/runnables";
 import initCypherGenerationChain from "./cypher-generation.chain";
@@ -147,7 +147,7 @@ export default async function initCypherRetrievalChain(
       .assign({
         responseId: async (input: CypherRetrievalThroughput, options) => {
           saveHistory(
-            options?.config.configurable.sessionId,
+            options?.configurable.sessionId,
             "cypher",
             input.input,
             input.rephrasedQuestion,

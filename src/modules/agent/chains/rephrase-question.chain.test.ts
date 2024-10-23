@@ -1,7 +1,6 @@
 import { config } from "dotenv";
-import { BaseChatModel } from "langchain/chat_models/base";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 import { RunnableSequence } from "@langchain/core/runnables";
-import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import initRephraseChain, {
@@ -9,6 +8,7 @@ import initRephraseChain, {
 } from "./rephrase-question.chain";
 import { AIMessage, BaseMessage, HumanMessage } from "@langchain/core/messages";
 import { ChatbotResponse } from "../history";
+import {ChatOllama} from '@langchain/ollama';
 
 describe("Rephrase Question Chain", () => {
   let llm: BaseChatModel;
@@ -18,14 +18,9 @@ describe("Rephrase Question Chain", () => {
   beforeAll(async () => {
     config({ path: ".env.local" });
 
-    llm = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      modelName: "gpt-3.5-turbo",
-      temperature: 0,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
-    });
+    llm = new ChatOllama({
+      model: "llama3.2"
+    });     
 
     chain = await initRephraseChain(llm);
 

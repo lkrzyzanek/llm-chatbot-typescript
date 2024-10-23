@@ -1,6 +1,6 @@
-import { ChatOpenAI } from "@langchain/openai";
+import {ChatOllama} from '@langchain/ollama';
 import { config } from "dotenv";
-import { BaseChatModel } from "langchain/chat_models/base";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 import { RunnableSequence } from "@langchain/core/runnables";
 import { Neo4jGraph } from "@langchain/community/graphs/neo4j_graph";
 import initCypherGenerationChain from "./cypher-generation.chain";
@@ -22,13 +22,8 @@ describe("Cypher Generation Chain", () => {
       database: process.env.NEO4J_DATABASE as string | undefined,
     });
 
-    llm = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      modelName: "gpt-3.5-turbo",
-      temperature: 0,
-      configuration: {
-        baseURL: process.env.OPENAI_API_BASE,
-      },
+    llm = new ChatOllama({
+      model: "llama3.2"
     });
 
     chain = await initCypherGenerationChain(graph, llm);

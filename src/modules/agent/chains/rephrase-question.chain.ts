@@ -5,7 +5,7 @@ import {
   RunnableSequence,
 } from "@langchain/core/runnables";
 
-import { BaseChatModel } from "langchain/chat_models/base";
+import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 import { ChatbotResponse } from "../history";
 
 // tag::interface[]
